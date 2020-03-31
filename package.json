@@ -1,0 +1,44 @@
+{
+  "name": "magic-chess",
+  "version": "1.0.0",
+  "description": "Simple p5.js webpack plug & play boilerplate",
+  "author": "Vasco Gaspar",
+  "license": "MIT",
+  "homepage": "https://github.com/zhabinsky/magic-chess",
+  "scripts": {
+    "ui-dev": "cd src/ui && cross-env NODE_ENV=dev webpack-dev-server --progress --mode development --config webpack.config.dev.js",
+    "ui-build": "cd src/ui && webpack -p --progress --mode production --config webpack.config.build.js",
+    "dev": "concurrently --kill-others \"npm run ui-dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vascogaspar/p5-webpack-boilerplate.git"
+  },
+  "dependencies": {
+    "p5": "^0.6.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "clean-webpack-plugin": "0.1.19",
+    "concurrently": "^5.1.0",
+    "cross-env": "5.1.4",
+    "css-loader": "0.28.11",
+    "file-loader": "1.1.11",
+    "html-webpack-plugin": "3.2.0",
+    "node-sass": "4.9.0",
+    "nodemon": "^2.0.2",
+    "sass-loader": "7.0.1",
+    "style-loader": "0.21.0",
+    "url-loader": "1.0.1",
+    "webpack": "4.6.0",
+    "webpack-cli": "2.0.15",
+    "webpack-dev-server": "3.1.3",
+    "webpack-merge": "4.1.2"
+  }
+}
