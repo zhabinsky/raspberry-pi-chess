@@ -1,5 +1,5 @@
-const Part = require ('./_part');
-const Vector = require ('../../math/Vector');
+const Part = require ('../_part');
+const Vector = require ('../../../math/Vector');
 
 class Bone extends Part {
   constructor (params) {

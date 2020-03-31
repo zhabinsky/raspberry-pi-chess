@@ -1,6 +1,6 @@
-const Part = require ('./_part');
-const Bone = require ('./Bone');
-const getIntersection = require ('../../math/getIntersection');
+const Part = require ('../_part');
+const Bone = require ('../Bone');
+const getIntersection = require ('../../../math/getIntersection');
 
 class Arm extends Part {
   constructor (params) {
