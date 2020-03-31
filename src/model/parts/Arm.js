@@ -1,4 +1,4 @@
-const Part = require ('./_Part');
+const Part = require ('./_part');
 const Bone = require ('./Bone');
 const getIntersection = require ('../../math/getIntersection');
 

@@ -1,4 +1,4 @@
-const Part = require ('./_Part');
+const Part = require ('./_part');
 const Vector = require ('../../math/Vector');
 
 class Bone extends Part {

@@ -1,4 +1,4 @@
-const Arm = require ('./parts/_Part');
+const Arm = require ('./parts/_part');
 const Part = require ('./concepts/Part');
 
 class Robot extends Part {
