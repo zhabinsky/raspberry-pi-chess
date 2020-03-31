@@ -1,5 +1,5 @@
-const Arm = require ('./parts/_part');
-const Part = require ('./concepts/Part');
+const Arm = require ('./parts/Arm');
+const Part = require ('./parts/_part');
 
 class Robot extends Part {
   constructor (params) {
