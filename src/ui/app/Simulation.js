@@ -10,7 +10,7 @@ function setup () {
   p5.createCanvas (sizes.canvasWidth, sizes.canvasHeight);
   p5.mouseClicked = () => {
     const {mouseX, mouseY} = getClick ();
-    arm.dragThroughCells ([[Math.floor (mouseX), Math.floor (mouseY)]]);
+    // arm.dragThroughCells ([[Math.floor (mouseX), Math.floor (mouseY)]]);
   };
 }
 

@@ -63,7 +63,7 @@ class Arm extends Part {
     bone1.setVector (jointNew.x - joint.x, jointNew.y - joint.y);
     bone2.setVector (x - jointNew.x, y - jointNew.y);
 
-    await timeout (50);
+    await timeout (20);
   }
 }
 

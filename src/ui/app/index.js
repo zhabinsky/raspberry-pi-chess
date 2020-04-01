@@ -97,19 +97,20 @@ const sketch = p5 => {
     Simulation.setup ();
   };
 
+  function traverse (item, items = []) {
+    items.push (item);
+    item.children.forEach (e => traverse (e, items));
+    return items;
+  }
   let modelParts = [];
-  const update = () => {
-    fetch ('http://localhost:3000').then (e => e.json ()).then (res => {
-      function traverse (item, items = []) {
-        items.push (item);
-        item.children.forEach (e => traverse (e, items));
-        return items;
-      }
+  const socket = new WebSocket ('ws://localhost:3000');
+  socket.onmessage = function (event) {
+    console.count ('ws message');
+    try {
+      const res = JSON.parse (event.data);
       modelParts = traverse (res);
-    });
-    setTimeout (update, 30);
+    } catch (e) {}
   };
-  update ();
 
   p5.draw = () => {
     if (!modelParts) return;

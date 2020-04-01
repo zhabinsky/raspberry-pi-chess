@@ -8,7 +8,7 @@
   "scripts": {
     "ui-dev": "cd src/ui && cross-env NODE_ENV=dev webpack-dev-server --progress --mode development --config webpack.config.dev.js",
     "ui-build": "cd src/ui && webpack -p --progress --mode production --config webpack.config.build.js",
-    "dev": "concurrently --kill-others \"npm run ui-dev\""
+    "dev": "concurrently --kill-others \"npm run ui-dev\" \"nodemon src/index\""
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "p5": "^0.6.1"
+    "p5": "^0.6.1",
+    "ws": "^7.2.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
