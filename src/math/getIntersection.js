@@ -20,7 +20,7 @@ function getIntersection (x0, y0, r0, x1, y1, r1) {
   /* Check for solvability. */
   if (d > r0 + r1) {
     /* no solution. circles do not intersect. */
-    console.log ('no');
+    // console.log ('no');
     return false;
   }
   if (d < Math.abs (r0 - r1)) {

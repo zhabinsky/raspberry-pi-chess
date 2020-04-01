@@ -1,118 +1,57 @@
 import p5 from 'p5';
-import Vector from './Vector';
 
 const scaleDrawers = p5 => {
-  const originalDrawers = {
-    line: {
-      func: p5.line,
-      args: (...rest) => [...rest.map (e => e * sizes.scaleRatio)],
-    },
-    rect: {
-      func: p5.rect,
-      args: (...rest) => [...rest.map (e => e * sizes.scaleRatio)],
-    },
-    text: {
-      func: p5.text,
-      args: (a, ...rest) => [a, ...rest.map (e => e * sizes.scaleRatio)],
-    },
-    image: {
-      func: p5.image,
-      args: (a, ...rest) => [a, ...rest.map (e => e * sizes.scaleRatio)],
-    },
-    ellipse: {
-      func: p5.ellipse,
-      args: (...rest) => [...rest.map (e => e * sizes.scaleRatio)],
-    },
+  const methods = {
+    line: (...r) => [...r.map (e => e * sizes.scaleRatio)],
+    rect: (...r) => [...r.map (e => e * sizes.scaleRatio)],
+    text: (a, ...r) => [a, ...r.map (e => e * sizes.scaleRatio)],
+    image: (a, ...r) => [a, ...r.map (e => e * sizes.scaleRatio)],
+    ellipse: (...r) => [...r.map (e => e * sizes.scaleRatio)],
   };
-  Object.keys (originalDrawers).forEach (drawerName => {
-    p5[drawerName] = function (...rest) {
-      const {func, args} = originalDrawers[drawerName];
-      func.bind (p5) (...args (...rest));
-    };
+  Object.keys (methods).forEach (drawerName => {
+    const func = p5[drawerName];
+    p5[drawerName] = (...r) => func.bind (p5) (...methods[drawerName] (...r));
   });
   return p5;
 };
 
 const sketch = p5 => {
+  scaleDrawers (p5);
   const canvasWidth = document.querySelector ('#container').offsetWidth;
   const canvasHeight = document.querySelector ('#container').offsetHeight;
 
-  const fieldHeight = 8;
-  const fieldWidth = 8;
   const cells = 8;
   const boneLength = Math.hypot (2, 3);
-  let scaleRatio = canvasWidth / 12;
+  const scaleRatio = canvasWidth / 12;
 
   window.sizes = {
-    canvasWidth,
-    canvasHeight,
-    fieldHeight,
-    fieldWidth,
     cells,
     boneLength,
     scaleRatio,
   };
 
-  window.p5 = scaleDrawers (p5);
-  window.Vector = Vector;
-  window.images = {};
+  window.p5 = p5;
 
-  p5.preload = () => {
-    new Array (6).fill ().forEach ((a, i) => {
-      const index = i + 1;
-      images['w-' + index] = p5.loadImage (
-        'assets/figures/w-' + index + '.png'
-      );
-      images['b-' + index] = p5.loadImage (
-        'assets/figures/b-' + index + '.png'
-      );
-    });
-  };
+  p5.preload = () => loadImages;
 
-  window.getClick = () => {
-    return {
-      mouseX: (p5.mouseX /= sizes.scaleRatio),
-      mouseY: (p5.mouseY /= sizes.scaleRatio),
-    };
-  };
-
-  const Simulation = require ('./Simulation');
-
-  function renderBoard () {
-    p5.stroke (0);
-    p5.strokeWeight (0);
-    const {cells} = sizes;
-    for (let i = 0; i < cells; i++) {
-      for (let j = 0; j < cells; j++) {
-        p5.fill ((j + i) % 2 === 0 ? 30 : 40);
-        p5.rect (i, j, 1, 1);
-      }
-    }
-    for (let i = cells; i < cells + 4; i++) {
-      for (let j = 0; j < cells; j++) {
-        p5.fill ((j + i) % 2 === 0 ? 25 : 15);
-        p5.rect (i, j, 1, 1);
-      }
-    }
-  }
+  window.getClick = () => ({
+    mouseX: (p5.mouseX /= sizes.scaleRatio),
+    mouseY: (p5.mouseY /= sizes.scaleRatio),
+  });
 
   p5.setup = () => {
-    Simulation.setup ();
+    p5.createCanvas (canvasWidth, canvasHeight);
+    // p5.mouseClicked = () => {
+    //   const {mouseX, mouseY} = getClick ();
+    //   arm.dragThroughCells ([[Math.floor (mouseX), Math.floor (mouseY)]]);
+    // };
   };
 
-  function traverse (item, items = []) {
-    items.push (item);
-    item.children.forEach (e => traverse (e, items));
-    return items;
-  }
+  let points = [];
   let modelParts = [];
-  const socket = new WebSocket ('ws://localhost:3000');
-  socket.onmessage = function (event) {
-    try {
-      const res = JSON.parse (event.data);
-      modelParts = traverse (res);
-    } catch (e) {}
-  };
+  subscribe (data => {
+    modelParts = data;
+  });
 
   const RENDERERS = {
     Bone: item => {
@@ -124,7 +63,6 @@ const sketch = p5 => {
     },
     Arm: item => {
       const {tip} = item.state;
-      console.log (tip);
       const last = points[points.length - 1];
       if (!last || last.x !== tip.x || last.y !== tip.y) points.push (tip);
       points = points.slice (Math.max (0, points.length - 80));
@@ -140,21 +78,69 @@ const sketch = p5 => {
   };
 
   p5.draw = () => {
-    if (!modelParts) return;
+    if (!modelParts) {
+      return; // no updates
+    }
+
     p5.background (30);
     renderBoard ();
+
+    // render model parts
     modelParts.forEach (item => {
       const {type} = item;
       const renderer = RENDERERS[type];
       if (!renderer) return;
       renderer (item);
     });
+
     modelParts = false;
   };
 };
 
-window.addEventListener ('load', event => {
-  new p5 (sketch, 'container');
-});
+function subscribe (cb) {
+  const socket = new WebSocket ('ws://localhost:3000');
+  socket.onmessage = function (event) {
+    try {
+      function traverse (item, items = []) {
+        items.push (item);
+        item.children.forEach (e => traverse (e, items));
+        return items;
+      }
+      const res = JSON.parse (event.data);
+      cb (traverse (res));
+    } catch (e) {}
+  };
+}
 
-let points = [];
+function renderBoard () {
+  window.p5.stroke (0);
+  window.p5.strokeWeight (0);
+  const {cells} = sizes;
+  for (let i = 0; i < cells; i++) {
+    for (let j = 0; j < cells; j++) {
+      window.p5.fill ((j + i) % 2 === 0 ? 30 : 40);
+      window.p5.rect (i, j, 1, 1);
+    }
+  }
+  for (let i = cells; i < cells + 4; i++) {
+    for (let j = 0; j < cells; j++) {
+      window.p5.fill ((j + i) % 2 === 0 ? 25 : 15);
+      window.p5.rect (i, j, 1, 1);
+    }
+  }
+}
+
+function loadImages () {
+  window.images = {};
+  return new Array (6).fill ().forEach ((a, i) => {
+    const index = i + 1;
+    window.images['w-' + index] = window.p5.loadImage (
+      'assets/figures/w-' + index + '.png'
+    );
+    window.images['b-' + index] = window.p5.loadImage (
+      'assets/figures/b-' + index + '.png'
+    );
+  });
+}
+
+new p5 (sketch, 'container');
