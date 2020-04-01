@@ -20,6 +20,7 @@ function getIntersection (x0, y0, r0, x1, y1, r1) {
   /* Check for solvability. */
   if (d > r0 + r1) {
     /* no solution. circles do not intersect. */
+    console.log ('no');
     return false;
   }
   if (d < Math.abs (r0 - r1)) {
@@ -71,7 +72,12 @@ function getIntersection (x0, y0, r0, x1, y1, r1) {
   lastPoint[0] = point[0];
   lastPoint[1] = point[1];
 
-  return point;
+  const res = {
+    x: point[0],
+    y: point[1],
+  };
+
+  return res;
 }
 
 module.exports = getIntersection;

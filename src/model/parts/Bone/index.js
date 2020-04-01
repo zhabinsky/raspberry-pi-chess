@@ -27,6 +27,7 @@ class Bone extends Part {
     return {
       startPoint: this.getStartPoint (),
       endPoint: this.getEndPoint (),
+      length: this.length,
     };
   }
 

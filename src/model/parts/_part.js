@@ -8,11 +8,11 @@ class Part {
   constructor (params) {
     this.id = params.id;
 
-    this.childrenParts = []; // collecting any dependant children
+    this.children = []; // collecting any dependant children
   }
 
   attachChildren (...children) {
-    this.childrenParts.push (...children);
+    this.children.push (...children);
   }
 
   toJSON () {
@@ -22,7 +22,7 @@ class Part {
       id: this.id,
       state: this.getLocalState (),
       type: this.getPartType (),
-      children: this.childrenParts.map (child => {
+      children: this.children.map (child => {
         return child.toJSON ();
       }),
     };
@@ -33,7 +33,9 @@ class Part {
   }
 
   getLocalState () {
-    throw new Error (this.id + '.getLocalState() is not implemented');
+    // throw new Error (this.id + '.getLocalState() is not implemented');
+
+    return null;
   }
 
   getPartType () {

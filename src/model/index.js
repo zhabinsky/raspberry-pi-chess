@@ -7,16 +7,10 @@ class Robot extends Part {
 
     this.type = 'Robot';
 
-    const arm = new Arm ({id: 'arm1'});
+    const arm = new Arm ({id: 'arm'});
 
     this.attachChildren (arm);
   }
-
-  getLocalState () {}
 }
 
-const robot = new Robot ({id: 'robot'});
-
-console.log (JSON.stringify (robot.toJSON (), null, 2));
-
-module.exports = robot;
+module.exports = new Robot ({id: 'robot'});

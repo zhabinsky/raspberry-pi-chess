@@ -8,7 +8,8 @@ class Arm extends Part {
 
     this.type = 'Arm';
 
-    const boneLength = 2;
+    const boneLength = Math.hypot (3, 2);
+
     const bone1 = new Bone ({id: 'bone1', length: boneLength, rootBone: null});
     const bone2 = new Bone ({id: 'bone2', length: boneLength, rootBone: bone1});
 
@@ -38,11 +39,13 @@ class Arm extends Part {
       this.pointBones (moveX, moveY);
     }
   }
+
   async pointBones (x, y) {
     const bone1 = this.getChild ('bone1');
     const bone2 = this.getChild ('bone2');
 
-    const joint = bone2.getStartPoint ();
+    const joint = bone1.getStartPoint ();
+
     const jointNew = getIntersection (
       joint.x,
       joint.y,
@@ -51,6 +54,10 @@ class Arm extends Part {
       y,
       bone2.length
     );
+
+    if (!jointNew) {
+      throw Error ('no interesection');
+    }
     // todo: create setter
     bone1.setVector (jointNew.x - joint.x, jointNew.y - joint.y);
     bone2.setVector (x - jointNew.x, y - jointNew.y);

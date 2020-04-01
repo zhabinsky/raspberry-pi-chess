@@ -15,6 +15,7 @@
     "url": "https://github.com/vascogaspar/p5-webpack-boilerplate.git"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "p5": "^0.6.1"
   },
   "devDependencies": {
