@@ -92,15 +92,49 @@ const sketch = p5 => {
       }
     }
   }
+
   p5.setup = () => {
     Simulation.setup ();
   };
+
+  let modelParts = [];
+  const update = () => {
+    fetch ('http://localhost:3000').then (e => e.json ()).then (res => {
+      function traverse (item, items = []) {
+        items.push (item);
+        item.children.forEach (e => traverse (e, items));
+        return items;
+      }
+      modelParts = traverse (res);
+    });
+    setTimeout (update, 30);
+  };
+  update ();
+
   p5.draw = () => {
+    if (!modelParts) return;
+
     p5.background (20);
-    p5.noStroke ();
-    renderBoard ();
-    p5.stroke (255);
-    Simulation.draw ();
+
+    modelParts.forEach (item => {
+      const {type, state} = item;
+
+      p5.stroke (0, 200, 0);
+      p5.fill (0, 200, 0);
+      p5.strokeWeight (5);
+
+      if (type === 'Bone') {
+        const {startPoint, endPoint} = state;
+        p5.line (startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+      }
+    });
+
+    // p5.noStroke ();
+    // renderBoard ();
+    // p5.stroke (255);
+    // Simulation.draw ();
+
+    modelParts = false;
   };
 };
 

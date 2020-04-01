@@ -5,8 +5,8 @@ function getIntersection (x0, y0, r0, x1, y1, r1) {
   x0 += 0.000001;
   y0 += 0.000001;
 
-  var a, dx, dy, d, h, rx, ry;
-  var x2, y2;
+  let a, dx, dy, d, h, rx, ry;
+  let x2, y2;
 
   /* dx and dy are the vertical and horizontal distances between
    * the circle centers.

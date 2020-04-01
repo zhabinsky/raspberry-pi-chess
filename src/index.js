@@ -3,8 +3,32 @@ const startServer = require ('./server');
 
 startServer (model);
 
-console.log (JSON.stringify (model.toJSON (), null, 2));
-
-setTimeout (() => {
-  model.getChild ('arm').pointBones (0, 0);
-}, 4000);
+model
+  .getChild ('arm')
+  .dragThroughCells ([
+    [1, 0],
+    [2, 0],
+    [2, 1],
+    [2, 2],
+    [2, 3],
+    [2, 4],
+    [3, 4],
+    [3, 5],
+    [4, 5],
+    [5, 5],
+    [6, 5],
+    [7, 5],
+    [7, 4],
+    [7, 3],
+    [7, 2],
+    [7, 1],
+    [7, 0],
+    [6, 0],
+    [5, 0],
+    [4, 0],
+    [3, 0],
+    [2, 0],
+    [2, 1],
+    [1, 1],
+    [1, 0],
+  ]);

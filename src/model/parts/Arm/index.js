@@ -24,19 +24,20 @@ class Arm extends Part {
     for (let i = 0; i < path.length; i++) {
       const [x, y] = path[i];
 
+      const pointer = this.getChild ('bone2').getEndPoint ().copy ();
       // TODO: use vector for math
-      const moveX = x + 0.5,
-        moveY = y + 0.5,
-        pointer = this.getBone (2).getEndPoint ().copy (),
-        distance = Math.hypot (moveX - pointer.x, moveY - pointer.y),
-        steps = Math.floor (distance * 10), // keep the speed constant
-        dx = (moveX - pointer.x) / steps,
-        dx = (moveY - pointer.y) / steps;
+      const moveX = x + 0.5;
+      const moveY = y + 0.5;
+      const distance = Math.hypot (moveX - pointer.x, moveY - pointer.y);
+      const steps = Math.floor (distance * 10); // keep the speed constan
+
+      const dx = (moveX - pointer.x) / steps;
+      const dy = (moveY - pointer.y) / steps;
 
       for (let j = 1; j < steps + 1; j++) {
-        this.pointBones (pointer.x + j * dx, pointer.y + j * dx);
+        await this.pointBones (pointer.x + j * dx, pointer.y + j * dy);
       }
-      this.pointBones (moveX, moveY);
+      await this.pointBones (moveX, moveY);
     }
   }
 
@@ -61,7 +62,13 @@ class Arm extends Part {
     // todo: create setter
     bone1.setVector (jointNew.x - joint.x, jointNew.y - joint.y);
     bone2.setVector (x - jointNew.x, y - jointNew.y);
+
+    await timeout (50);
   }
 }
 
 module.exports = Arm;
+
+function timeout (ms) {
+  return new Promise (resolve => setTimeout (resolve, ms));
+}
