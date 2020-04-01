@@ -36,12 +36,13 @@ const scaleDrawers = p5 => {
 const sketch = p5 => {
   const canvasWidth = document.querySelector ('#container').offsetWidth;
   const canvasHeight = document.querySelector ('#container').offsetHeight;
-  console.log (canvasWidth, canvasHeight);
+
   const fieldHeight = 8;
   const fieldWidth = 8;
   const cells = 8;
   const boneLength = Math.hypot (2, 3);
   let scaleRatio = canvasWidth / 12;
+
   window.sizes = {
     canvasWidth,
     canvasHeight,
@@ -78,6 +79,8 @@ const sketch = p5 => {
   const Simulation = require ('./Simulation');
 
   function renderBoard () {
+    p5.stroke (0);
+    p5.strokeWeight (0);
     const {cells} = sizes;
     for (let i = 0; i < cells; i++) {
       for (let j = 0; j < cells; j++) {
@@ -105,36 +108,47 @@ const sketch = p5 => {
   let modelParts = [];
   const socket = new WebSocket ('ws://localhost:3000');
   socket.onmessage = function (event) {
-    console.count ('ws message');
     try {
       const res = JSON.parse (event.data);
       modelParts = traverse (res);
     } catch (e) {}
   };
 
+  const RENDERERS = {
+    Bone: item => {
+      const {startPoint, endPoint} = item.state;
+      p5.fill (0, 200, 0);
+      p5.stroke (0, 200, 0);
+      p5.strokeWeight (5);
+      p5.line (startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+    },
+    Arm: item => {
+      const {tip} = item.state;
+      console.log (tip);
+      const last = points[points.length - 1];
+      if (!last || last.x !== tip.x || last.y !== tip.y) points.push (tip);
+      points = points.slice (Math.max (0, points.length - 80));
+      p5.stroke (255);
+      points.forEach ((_, i) => {
+        p5.strokeWeight (1);
+        p5.stroke (i / points.length * 70 + 50);
+        if (i < points.length - 1 && points.length > 1) {
+          p5.line (points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+        }
+      });
+    },
+  };
+
   p5.draw = () => {
     if (!modelParts) return;
-
-    p5.background (20);
-
+    p5.background (30);
+    renderBoard ();
     modelParts.forEach (item => {
-      const {type, state} = item;
-
-      p5.stroke (0, 200, 0);
-      p5.fill (0, 200, 0);
-      p5.strokeWeight (5);
-
-      if (type === 'Bone') {
-        const {startPoint, endPoint} = state;
-        p5.line (startPoint.x, startPoint.y, endPoint.x, endPoint.y);
-      }
+      const {type} = item;
+      const renderer = RENDERERS[type];
+      if (!renderer) return;
+      renderer (item);
     });
-
-    // p5.noStroke ();
-    // renderBoard ();
-    // p5.stroke (255);
-    // Simulation.draw ();
-
     modelParts = false;
   };
 };
@@ -142,3 +156,5 @@ const sketch = p5 => {
 window.addEventListener ('load', event => {
   new p5 (sketch, 'container');
 });
+
+let points = [];

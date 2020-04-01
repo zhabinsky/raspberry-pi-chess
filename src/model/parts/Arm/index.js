@@ -17,7 +17,9 @@ class Arm extends Part {
   }
 
   getLocalState () {
-    return null;
+    return {
+      tip: this.getChild ('bone2').getEndPoint (),
+    };
   }
 
   async dragThroughCells (path) {
@@ -63,7 +65,7 @@ class Arm extends Part {
     bone1.setVector (jointNew.x - joint.x, jointNew.y - joint.y);
     bone2.setVector (x - jointNew.x, y - jointNew.y);
 
-    await timeout (20);
+    await timeout (40);
   }
 }
 

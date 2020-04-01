@@ -38,7 +38,7 @@ function Arm () {
           this.alignBones (moveX, moveY);
         }
 
-        this.trackcursor ();
+        // this.trackcursor ();
       }
     }
   };
@@ -54,7 +54,7 @@ function Arm () {
     );
     if (!intersection) return;
     const [intersectionX, intersectionY] = intersection;
-    debugPoint = intersection;
+    // debugPoint = intersection;
     this.getBone (1).vector.setInterpolate (
       intersectionX - this.getBone (1).getStartPoint ().x,
       intersectionY - this.getBone (1).getStartPoint ().y
@@ -114,26 +114,7 @@ function Arm () {
     ]).then (this.loop);
   };
 
-  let debugPoint = [-100, -100];
-  let points = [];
-  this.drawTrackPoints = () => {
-    points.forEach ((_, i) => {
-      p5.stroke (i / points.length * 90 + 50);
-      if (i < points.length - 1 && points.length > 1) {
-        p5.line (points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
-      }
-    });
-  };
-
-  this.trackcursor = () => {
-    const newpoint = this.getBone (2).getEndPoint ().copy ();
-    const last = points[points.length - 1];
-    if (!last || last.x !== newpoint.x || last.y !== newpoint.y)
-      points.push (newpoint);
-    points = points.slice (Math.max (0, points.length - 120));
-    p5.stroke (255);
-    p5.ellipse (...debugPoint, 10);
-  };
+  // let debugPoint = [-100, -100];
 }
 
 export default Arm;

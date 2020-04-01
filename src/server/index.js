@@ -11,7 +11,7 @@ const startServer = model => {
   const server = http.createServer (app);
   const wss = new ws.Server ({server});
 
-  wss.on ('connection', ws => {
+  function onWSConnection (ws) {
     ws.on ('message', message => {
       ws.send (`Hello, you sent -> ${message}`);
     });
@@ -19,7 +19,6 @@ const startServer = model => {
     const notify = () => {
       const data = JSON.stringify (model.toJSON ());
       const hash = data.hashCode ();
-
       if (lastDataHash !== hash) {
         ws.send (data);
         lastDataHash = hash;
@@ -27,7 +26,9 @@ const startServer = model => {
     };
     setInterval (notify, 10);
     notify ();
-  });
+  }
+
+  wss.on ('connection', onWSConnection);
 
   // app.get ('/', (req, res) => res.json (model.toJSON ()));
   server.listen (port, () =>
@@ -38,14 +39,11 @@ const startServer = model => {
 module.exports = startServer;
 
 String.prototype.hashCode = function () {
-  var hash = 0;
-  if (this.length == 0) {
-    return hash;
-  }
-  for (var i = 0; i < this.length; i++) {
-    var char = this.charCodeAt (i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash; // Convert to 32bit integer
+  let hash = 0;
+  if (this.length == 0) return hash;
+  for (let i = 0; i < this.length; i++) {
+    hash = (hash << 5) - hash + this.charCodeAt (i);
+    hash = hash & hash;
   }
   return hash;
 };
