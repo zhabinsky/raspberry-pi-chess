@@ -7,7 +7,7 @@ class Robot extends Part {
 
     this.type = 'Robot';
 
-    const arm = new Arm ({id: 'arm'});
+    const arm = new Arm ({id: 'arm1'});
 
     this.attachChildren (arm);
   }

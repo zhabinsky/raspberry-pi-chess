@@ -31,9 +31,9 @@ const dir = [
   [1, 0],
 ];
 const cicle = () =>
-  model.getChild ('arm').dragThroughCells ([...dir]).then (() => {
+  model.getChild ('arm1').dragThroughCells ([...dir]).then (() => {
     return model
-      .getChild ('arm')
+      .getChild ('arm1')
       .dragThroughCells ([...dir].reverse ())
       .then (cicle);
   });

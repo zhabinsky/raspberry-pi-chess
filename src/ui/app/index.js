@@ -101,13 +101,42 @@ function subscribe (cb) {
   const socket = new WebSocket ('ws://localhost:3000');
   socket.onmessage = function (event) {
     try {
-      function traverse (item, items = []) {
+      function traverse (item, items = [], level = 1) {
+        item.level = level;
         items.push (item);
-        item.children.forEach (e => traverse (e, items));
+        item.children.forEach (e => traverse (e, items, level + 1));
         return items;
       }
       const res = JSON.parse (event.data);
-      cb (traverse (res));
+
+      const data = traverse (res);
+      cb (data);
+
+      const rows = data
+        .map (e => {
+          const summary = (e.state || {}).summary;
+          const rowContent = [
+            `<span class="link">${'<span class="arrow">└</span>' + (e.level > 1 ? '-'.repeat (e.level - 1) : '')}</span> ${e.id}`,
+            e.type,
+            summary ? summary : '',
+          ]
+            .map (e => `<td>${e}</td>`)
+            .join ('\n');
+          return `<tr>${rowContent}</tr>`;
+        })
+        .join ('\n');
+      document.getElementById ('stats').innerHTML = `<table>
+        <thead>
+         <tr>
+         ${['Robot Tree', 'Part Type', 'State Summary']
+           .map (e => `<td>${e}</td>`)
+           .join ('\n')}
+        </tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>`;
     } catch (e) {}
   };
 }

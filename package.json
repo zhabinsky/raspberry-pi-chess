@@ -8,7 +8,8 @@
   "scripts": {
     "ui-dev": "cd src/ui && cross-env NODE_ENV=dev webpack-dev-server --progress --mode development --config webpack.config.dev.js",
     "ui-build": "cd src/ui && webpack -p --progress --mode production --config webpack.config.build.js",
-    "dev": "concurrently --kill-others \"npm run ui-dev\" \"node src/index\""
+    "dev": "npm run ui-dev",
+    "model": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",

@@ -14,17 +14,19 @@
       width: 100%;
       height: 100%;
       margin: 0;
-      background: rgba(30, 30, 30, 1)
+      background: rgba(30, 30, 30, 1);
+      color: white;
+      font-family: Arial;
     }
 
     #container {
       position: relative;
       height: 100vh;
-      width: 100%;
-      max-width: 1000px;
+      width: 50%;
+      /* max-width: 800px; */
       display: flex;
       content: ' ';
-      margin: 0 auto;
+      /* margin: 0 auto; */
     }
 
     canvas {
@@ -34,11 +36,45 @@
       left: 0;
       right: 0;
     }
+
+    .stats-container {
+      padding: 10px;
+    }
+
+    h4 {
+      margin-top: 0;
+    }
+
+    span.arrow {
+      display: inline-block;
+      transform: scale(1) translate(-1px, 1.5px);
+    }
+
+    .link {
+      color: rgba(255, 255, 255, 0.24) !important;
+    }
+
+    thead {
+      font-weight: 900;
+      font-size: 110%;
+      color: rgba(255, 255, 255, 0.562)
+    }
+
+    td {
+      padding-right: 9px;
+    }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <div id="container"></div>
+  <div class="stats-container">
+    <h4>System information:</h4>
+    <pre id="stats">
+
+    </pre>
+  </div>
 </body>
 
 </html>

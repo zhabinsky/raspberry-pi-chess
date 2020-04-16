@@ -26,9 +26,6 @@
         v.equals(v2) OR v.equals(some_x,some_y);
         let v2 = v.copy();
 */
-function timeout (ms) {
-  return new Promise (resolve => setTimeout (resolve, ms));
-}
 
 function Vector (x, y) {
   // create a new instance using "new"
