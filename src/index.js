@@ -66,46 +66,13 @@ const gpioMotor2 = gpioInterface (23, 24, 25, 4);
 gpioMotor1.generateRestInterface ();
 gpioMotor2.generateRestInterface ();
 
-// setInterval (() => gpioLed.switchAll (), 1000);
-
 const motorNextStates = async device => {
   for (const states of sequence) {
     await device.writeStates (states);
-    // console.log ('_____');
-    await wait (100);
-  }
-  for (const states of [...sequence].reverse ()) {
-    await device.writeStates (states);
-    // console.log ('_____');
-    await wait (100);
+    await wait (5);
   }
   motorNextStates (device);
 };
 
 motorNextStates (gpioMotor1);
 motorNextStates (gpioMotor2);
-
-// while True:
-
-//   print StepCounter,
-//   print Seq[StepCounter]
-
-//   for pin in range(0, 4):
-//     xpin = StepPins[pin]#
-//     if Seq[StepCounter][pin]!=0:
-//       print " Enable GPIO %i" %(xpin)
-//       GPIO.output(xpin, True)
-//     else:
-//       GPIO.output(xpin, False)
-
-//   StepCounter += StepDir
-
-//   # If we reach the end of the sequence
-//   # start again
-//   if (StepCounter&gt;=StepCount):
-//     StepCounter = 0
-//   if (StepCounter&lt;0):
-//     StepCounter = StepCount+StepDir
-
-//   # Wait before moving on
-//   time.sleep(WaitTime)
