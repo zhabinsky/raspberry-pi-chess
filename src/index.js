@@ -50,6 +50,7 @@ gpioLed.writeStates ([0]);
 
 const sequence = [
   [1, 0, 0, 1],
+  [1, 0, 1, 1],
   [1, 0, 0, 0],
   [1, 1, 0, 0],
   [0, 1, 0, 0],
@@ -71,7 +72,7 @@ const motorNextStates = async device => {
   for (const states of sequence) {
     await device.writeStates (states);
     // console.log ('_____');
-    await wait (1000);
+    await wait (100);
   }
   motorNextStates (device);
 };
