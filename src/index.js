@@ -60,7 +60,7 @@ const sequence = [
 ];
 
 const gpioMotor1 = gpioInterface (17, 18, 27, 22);
-const gpioMotor2 = gpioInterface (23, 24, 25, 0);
+const gpioMotor2 = gpioInterface (23, 24, 25, 4);
 
 gpioMotor.generateRestInterface ();
 
