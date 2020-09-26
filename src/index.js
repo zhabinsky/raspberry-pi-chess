@@ -65,7 +65,7 @@ const motorNextStates = async () => {
   for (const states of sequence) {
     await gpioMotor.writeStates (states);
     console.log ('_____');
-    await wait (1000);
+    await wait (2000);
   }
   motorNextStates ();
 };
