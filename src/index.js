@@ -88,5 +88,6 @@ const motorNextStates = steps => {
 (async () => {
   await motorNextStates (512) (gpioMotor2);
   await wait (1000);
+  sequence.reverse ();
   await motorNextStates (512) (gpioMotor2);
 }) ();
