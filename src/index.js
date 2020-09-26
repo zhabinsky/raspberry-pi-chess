@@ -74,7 +74,7 @@ const motorNextStates = steps => {
 
     for (const states of sequence) {
       await device.writeStates (states);
-      await wait (5 + Math.random () * 5);
+      await wait (5);
     }
 
     loop (device, step + 1);
@@ -88,6 +88,5 @@ const motorNextStates = steps => {
 (async () => {
   await motorNextStates (512) (gpioMotor2);
   await wait (1000);
-  sequence.reverse ();
   await motorNextStates (512) (gpioMotor2);
 }) ();
