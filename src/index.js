@@ -83,5 +83,5 @@ const motorNextStates = steps => {
   return loop;
 };
 
-motorNextStates (36000) (gpioMotor1);
+motorNextStates (16) (gpioMotor1);
 motorNextStates (8) (gpioMotor2);
