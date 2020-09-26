@@ -87,6 +87,6 @@ const motorNextStates = steps => {
 
 (async () => {
   await motorNextStates (512) (gpioMotor2);
-  await wait (5 + Math.random () * 5);
+  await wait (1000);
   await motorNextStates (512) (gpioMotor2);
 }) ();
