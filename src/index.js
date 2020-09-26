@@ -71,7 +71,7 @@ const motorNextStates = async device => {
   for (const states of sequence) {
     await device.writeStates (states);
     // console.log ('_____');
-    await wait (5);
+    await wait (1000);
   }
   motorNextStates (device);
 };
