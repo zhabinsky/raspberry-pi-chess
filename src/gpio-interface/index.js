@@ -42,11 +42,19 @@ module.exports = (...usedPorts) => {
     else writeOn (port);
   };
 
+  const setStates = states => {
+    if (state.length !== usedPorts.length) throw Error ('Not enough states');
+    usedPorts.forEach ((port, index) => {
+      write (states[index]) (port);
+    });
+  };
+
   return {
     writeOn,
     writeOff,
     getState,
     setState,
     switchPort,
+    setStates,
   };
 };
