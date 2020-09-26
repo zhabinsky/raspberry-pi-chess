@@ -44,7 +44,7 @@ const cycle = () => {
 
 cycle ();
 
-const gpioLed = gpioInterface (4);
+// const gpioLed = gpioInterface (4);
 
 const sequence = [
   [1, 0, 0, 1],
