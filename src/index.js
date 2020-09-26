@@ -74,7 +74,7 @@ const motorNextStates = steps => {
 
     for (const states of sequence) {
       await device.writeStates (states);
-      await wait (5);
+      await wait (20);
     }
 
     loop (device, step + 1);
