@@ -62,10 +62,10 @@ const gpioMotor = gpioInterface (16, 18, 22, 7);
 // setInterval (() => gpioLed.switchAll (), 1000);
 
 const motorNextStates = async () => {
+  await wait (2000);
   for (const states of sequence) {
     await gpioMotor.writeStates (states);
     console.log ('_____');
-    await wait (2000);
   }
   motorNextStates ();
 };
