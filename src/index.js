@@ -57,4 +57,4 @@ const iv = setInterval (_ => {
 setTimeout (_ => {
   clearInterval (iv); // Stop blinking
   led.unexport (); // Unexport GPIO and free resources
-}, 999999999999);
+}, 999999);
