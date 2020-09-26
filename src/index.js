@@ -1,5 +1,6 @@
 const model = require ('./model');
 const startServer = require ('./server');
+const gpioInterface = require ('./gpio-interface');
 
 startServer (model);
 
@@ -40,21 +41,25 @@ const cicle = () =>
 
 cicle ();
 
+const gpio = gpioInterface (4);
+
 console.log ('meow');
 
-const Gpio = require ('onoff').Gpio; // Gpio class
-const led = new Gpio (4, 'out'); // Export GPIO17 as an output
+setInterval (() => gpio.switchPort (4), 1000);
 
-// Toggle the state of the LED connected to GPIO17 every 200ms
-const iv = setInterval (_ => {
-  const value = led.readSync () ^ 1;
+// const Gpio = require ('onoff').Gpio; // Gpio class
+// const led = new Gpio (4, 'out'); // Export GPIO17 as an output
 
-  console.log (value);
-  led.writeSync (value);
-}, 1000);
+// // Toggle the state of the LED connected to GPIO17 every 200ms
+// const iv = setInterval (_ => {
+//   const value = led.readSync () ^ 1;
 
-// Stop blinking the LED after 5 seconds
-setTimeout (_ => {
-  clearInterval (iv); // Stop blinking
-  led.unexport (); // Unexport GPIO and free resources
-}, 999999);
+//   console.log (value);
+//   led.writeSync (value);
+// }, 1000);
+
+// // Stop blinking the LED after 5 seconds
+// setTimeout (_ => {
+//   clearInterval (iv); // Stop blinking
+//   led.unexport (); // Unexport GPIO and free resources
+// }, 999999);
