@@ -74,6 +74,11 @@ const motorNextStates = async device => {
     // console.log ('_____');
     await wait (100);
   }
+  for (const states of [...sequence].reverse ()) {
+    await device.writeStates (states);
+    // console.log ('_____');
+    await wait (100);
+  }
   motorNextStates (device);
 };
 
