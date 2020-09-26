@@ -12,13 +12,13 @@ module.exports = (...usedPorts) => {
     } catch (err) {}
   });
 
-  const write = value => async (...ports) => {
+  const write = value => (...ports) => {
     for (const port of ports) {
       // if (getState (port) === value) return;
 
       const controller = controllers[port];
 
-      if (controller) await controller.write (value, console.log);
+      if (controller) controller.write (value, console.log);
 
       setState (port, value);
     }
@@ -42,11 +42,11 @@ module.exports = (...usedPorts) => {
     else writeOn (port);
   };
 
-  const writeStates = async states => {
+  const writeStates = states => {
     if (states.length !== usedPorts.length) throw Error ('Not enough states');
 
     for (let i = 0; i < usedPorts.length; i++) {
-      await write (states[i]) (usedPorts[i]);
+      write (states[i]) (usedPorts[i]);
     }
   };
 
