@@ -83,8 +83,8 @@ const motorNextStates = steps => {
 };
 
 (async () => {
-  const turnAround = motorNextStates (10);
-  for (let i = 0; i < 1000; i++) {
+  const turnAround = motorNextStates (5);
+  for (let i = 0; i < 100; i++) {
     await turnAround (gpioMotor2, 1);
     await turnAround (gpioMotor2, -1);
   }
