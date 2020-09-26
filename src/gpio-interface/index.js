@@ -12,16 +12,16 @@ module.exports = (...usedPorts) => {
     } catch (err) {}
   });
 
-  const write = value => (...ports) => {
-    ports.forEach (port => {
+  const write = value => async (...ports) => {
+    for (const port of ports) {
       // if (getState (port) === value) return;
 
       const controller = controllers[port];
 
-      if (controller) controller.write (value, console.log);
+      if (controller) await controller.write (value, console.log);
 
       setState (port, value);
-    });
+    }
   };
 
   const getState = port => internalStates[port];
@@ -42,12 +42,12 @@ module.exports = (...usedPorts) => {
     else writeOn (port);
   };
 
-  const writeStates = states => {
+  const writeStates = async states => {
     if (states.length !== usedPorts.length) throw Error ('Not enough states');
 
-    usedPorts.forEach ((port, index) => {
-      write (states[index]) (port);
-    });
+    for (let i = 0; i < usedPorts.length; i++) {
+      await write (states[i]) (usedPorts[i]);
+    }
   };
 
   const switchAll = () => usedPorts.forEach (switchPort);
