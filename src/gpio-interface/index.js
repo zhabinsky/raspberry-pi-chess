@@ -14,7 +14,7 @@ const gpioInterface = (...usedPorts) => {
 
   const write = value => (...ports) => {
     for (const port of ports) {
-      // if (getState (port) === value) return;
+      if (getState (port) === value) return;
 
       const controller = controllers[port];
 
@@ -25,10 +25,7 @@ const gpioInterface = (...usedPorts) => {
   };
 
   const getState = port => internalStates[port];
-  const setState = (port, value) => {
-    console.log (`Port: ${port} value: ${value}`);
-    internalStates[port] = value;
-  };
+  const setState = (port, value) => (internalStates[port] = value);
 
   const writeOn = write (1);
   const writeOff = write (0);
@@ -43,11 +40,8 @@ const gpioInterface = (...usedPorts) => {
   };
 
   const writeStates = states => {
-    if (states.length !== usedPorts.length) throw Error ('Not enough states');
-
-    for (let i = 0; i < usedPorts.length; i++) {
+    for (let i = 0; i < usedPorts.length; i++)
       write (states[i]) (usedPorts[i]);
-    }
   };
 
   const switchAll = () => usedPorts.forEach (switchPort);
