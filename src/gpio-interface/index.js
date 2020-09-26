@@ -18,7 +18,7 @@ module.exports = (...usedPorts) => {
 
       const controller = controllers[port];
 
-      if (controller) led.writeSync (value);
+      if (controller) controller.writeSync (value);
 
       setState (port, value);
     });
