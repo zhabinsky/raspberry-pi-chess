@@ -84,4 +84,4 @@ const motorNextStates = steps => {
 };
 
 // motorNextStates (64) (gpioMotor1);
-motorNextStates (64 * 8) (gpioMotor2);
+motorNextStates (64 * 8 * 2) (gpioMotor2);
