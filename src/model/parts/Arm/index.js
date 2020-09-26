@@ -78,7 +78,7 @@ class Arm extends Part {
       bone2.setVector (x - jointNew.x, y - jointNew.y),
     ]);
 
-    await timeout (40);
+    // await timeout (40);
   }
 }
 
