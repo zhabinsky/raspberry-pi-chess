@@ -78,7 +78,7 @@ const motorNextStates = steps => {
     loop (device, step + 1);
   };
 
-  loop ();
+  return loop;
 };
 
 motorNextStates (8 * 2) (gpioMotor1);
