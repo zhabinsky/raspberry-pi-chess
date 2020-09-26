@@ -66,13 +66,15 @@ const gpioMotor2 = gpioInterface (23, 24, 25, 4);
 gpioMotor1.generateRestInterface ();
 gpioMotor2.generateRestInterface ();
 
-const motorNextStates = async device => {
+const motorNextStates = steps => async (device, step = 0) => {
+  if (step === steps) return;
+
   for (const states of sequence) {
     await device.writeStates (states);
     await wait (5);
   }
-  motorNextStates (device);
+  motorNextStates (device, step + 1);
 };
 
-motorNextStates (gpioMotor1);
-motorNextStates (gpioMotor2);
+motorNextStates (8 * 2) (gpioMotor1);
+motorNextStates (8) (gpioMotor2);
