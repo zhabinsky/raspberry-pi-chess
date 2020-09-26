@@ -51,7 +51,7 @@ const iv = setInterval (_ => {
 
   console.log (value);
   led.writeSync (value);
-}, 200);
+}, 1000);
 
 // Stop blinking the LED after 5 seconds
 setTimeout (_ => {
