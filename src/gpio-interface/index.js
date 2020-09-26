@@ -18,7 +18,7 @@ module.exports = (...usedPorts) => {
 
       const controller = controllers[port];
 
-      if (controller) controller.write (value);
+      if (controller) controller.write (value, console.log);
 
       setState (port, value);
     });
