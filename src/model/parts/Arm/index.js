@@ -13,13 +13,13 @@ class Arm extends Part {
     const bone1 = new Bone ({
       id: 'bone1',
       length: boneLength,
-      motorPorts: [23, 24, 25, 4],
+      motorPorts: [17, 18, 27, 22],
       rootBone: null,
     });
     const bone2 = new Bone ({
       id: 'bone2',
       length: boneLength,
-      motorPorts: [17, 18, 27, 22],
+      motorPorts: [23, 24, 25, 4],
       rootBone: bone1,
     });
 
