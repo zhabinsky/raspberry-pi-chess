@@ -1,17 +1,19 @@
 const Part = require ('../_part');
 const Vector = require ('../../../math/Vector');
+const motorInterface = require ('../../../interfaces/motor-interface');
 
 class StepperMotor extends Part {
   constructor (params) {
     super (params);
 
     this.type = 'StepperMotor';
-    this.angle = 0;
+    this.motorInterface = motorInterface (params.motorPorts);
+    this.toDegrees = this.motorInterface.toDegrees;
   }
 
   getLocalState () {
     return {
-      summary: this.angle + 'deg',
+      summary: this.motorInterface.getDegrees () + 'deg',
     };
   }
 }

@@ -6,13 +6,15 @@ class Bone extends Part {
   constructor (params) {
     super (params);
 
+    const {motorPorts} = params;
+
     this.type = 'Bone';
 
     this.rootBone = params.rootBone;
     this.length = params.length;
     this.vector = new Vector (this.length, 0);
 
-    this.attachChildren (new StepperMotor ({id: 'motor1'}));
+    this.attachChildren (new StepperMotor ({id: 'motor1', motorPorts}));
   }
 
   // TODO: change to a getter
@@ -36,8 +38,10 @@ class Bone extends Part {
     };
   }
 
-  setVector (x, y) {
+  async setVector (x, y) {
     this.vector.set (x, y);
+    const motor = this.getChild ('motor1');
+    await motor.toDegrees (this.vector.angleBetweenDegs (1, 0));
   }
 }
 

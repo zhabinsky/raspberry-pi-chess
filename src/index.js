@@ -4,6 +4,17 @@ const gpioInterface = require ('./interfaces/gpio-interface');
 const wait = require ('./utils/wait');
 
 startServer (model);
+const sequence = [
+  [1, 0, 0, 1],
+  // [1, 0, 1, 1],
+  [1, 0, 0, 0],
+  // [1, 1, 0, 0],
+  [0, 1, 0, 0],
+  // [0, 1, 1, 0],
+  [0, 0, 1, 0],
+  // [0, 0, 1, 1],
+  [0, 0, 0, 1],
+];
 
 const dir = [
   [1, 0],
@@ -47,28 +58,14 @@ const gpioLed = gpioInterface (4);
 
 gpioLed.writeStates ([0]);
 
-const sequence = [
-  [1, 0, 0, 1],
-  // [1, 0, 1, 1],
-  [1, 0, 0, 0],
-  // [1, 1, 0, 0],
-  [0, 1, 0, 0],
-  // [0, 1, 1, 0],
-  [0, 0, 1, 0],
-  // [0, 0, 1, 1],
-  [0, 0, 0, 1],
-];
-
 const gpioMotor1 = gpioInterface (17, 18, 27, 22);
 const gpioMotor2 = gpioInterface (23, 24, 25, 4);
 
-gpioMotor1.generateRestInterface ();
-gpioMotor2.generateRestInterface ();
+// gpioMotor1.generateRestInterface ();
+// gpioMotor2.generateRestInterface ();
 
 const motorNextStates = steps => {
-  const loop = async (device, direction, step = 0) => {
-    if (step === steps) return;
-
+  const loop = async (device, direction) => {
     for (const states of direction === 1
       ? sequence
       : [...sequence].reverse ()) {
@@ -76,7 +73,7 @@ const motorNextStates = steps => {
       await wait (10);
     }
 
-    await loop (device, direction, step + 1);
+    await loop (device, direction);
   };
 
   return loop;

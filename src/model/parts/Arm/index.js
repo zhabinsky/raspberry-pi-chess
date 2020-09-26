@@ -10,8 +10,18 @@ class Arm extends Part {
 
     const boneLength = Math.hypot (3, 2);
 
-    const bone1 = new Bone ({id: 'bone1', length: boneLength, rootBone: null});
-    const bone2 = new Bone ({id: 'bone2', length: boneLength, rootBone: bone1});
+    const bone1 = new Bone ({
+      id: 'bone1',
+      length: boneLength,
+      motorPorts: [23, 24, 25, 4],
+      rootBone: null,
+    });
+    const bone2 = new Bone ({
+      id: 'bone2',
+      length: boneLength,
+      motorPorts: [17, 18, 27, 22],
+      rootBone: bone1,
+    });
 
     this.attachChildren (bone1, bone2);
   }
@@ -63,8 +73,10 @@ class Arm extends Part {
       throw Error ('no interesection');
     }
 
-    bone1.setVector (jointNew.x - joint.x, jointNew.y - joint.y);
-    bone2.setVector (x - jointNew.x, y - jointNew.y);
+    await Promise.all ([
+      bone1.setVector (jointNew.x - joint.x, jointNew.y - joint.y),
+      bone2.setVector (x - jointNew.x, y - jointNew.y),
+    ]);
 
     await timeout (40);
   }
