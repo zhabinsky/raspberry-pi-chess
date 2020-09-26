@@ -12,13 +12,13 @@ const gpioInterface = (...usedPorts) => {
     } catch (err) {}
   });
 
-  const write = value => (...ports) => {
+  const write = value => async (...ports) => {
     for (const port of ports) {
       if (getState (port) === value) return;
 
       const controller = controllers[port];
 
-      if (controller) controller.writeSync (value, console.log);
+      if (controller) await controller.write (value, console.log);
 
       setState (port, value);
     }
@@ -39,9 +39,9 @@ const gpioInterface = (...usedPorts) => {
     else writeOn (port);
   };
 
-  const writeStates = states => {
+  const writeStates = async states => {
     for (let i = 0; i < usedPorts.length; i++)
-      write (states[i]) (usedPorts[i]);
+      await write (states[i]) (usedPorts[i]);
   };
 
   const switchAll = () => usedPorts.forEach (switchPort);
