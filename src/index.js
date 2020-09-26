@@ -81,7 +81,13 @@ const motorNextStates = steps => {
 };
 
 (async () => {
-  const turnAround = motorNextStates (512 / 4);
+  const turnAround = motorNextStates (512 / 8);
+  await turnAround (gpioMotor2);
+  await wait (2000);
+  await turnAround (gpioMotor2);
+  await wait (2000);
+  await turnAround (gpioMotor2);
+  await wait (2000);
   await turnAround (gpioMotor2);
   await wait (2000);
   await turnAround (gpioMotor2);
