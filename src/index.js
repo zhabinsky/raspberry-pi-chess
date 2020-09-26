@@ -39,3 +39,5 @@ const cicle = () =>
   });
 
 cicle ();
+
+console.log ('meow');
