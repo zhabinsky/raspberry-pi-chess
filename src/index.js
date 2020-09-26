@@ -80,16 +80,15 @@ const motorNextStates = steps => {
   return loop;
 };
 
-// motorNextStates (64) (gpioMotor1);
-
 (async () => {
-  await motorNextStates (512) (gpioMotor2);
+  const turnAround = motorNextStates (512);
+  await turnAround (gpioMotor2);
   await wait (2000);
-  await motorNextStates (512) (gpioMotor2);
+  await turnAround (gpioMotor2);
   await wait (2000);
-  await motorNextStates (512) (gpioMotor2);
+  await turnAround (gpioMotor2);
   await wait (2000);
-  await motorNextStates (512) (gpioMotor2);
+  await turnAround (gpioMotor2);
   await wait (2000);
-  await motorNextStates (512) (gpioMotor2);
+  await turnAround (gpioMotor2);
 }) ();
