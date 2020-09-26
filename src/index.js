@@ -87,5 +87,9 @@ const motorNextStates = steps => {
   for (let i = 0; i < 70; i++) {
     await turnAround (gpioMotor2, 1);
     await turnAround (gpioMotor2, -1);
+    await turnAround (gpioMotor2, -1);
+    await turnAround (gpioMotor2, -1);
+    await turnAround (gpioMotor2, 1);
+    await turnAround (gpioMotor2, 1);
   }
 }) ();
