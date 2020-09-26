@@ -74,7 +74,7 @@ const motorNextStates = steps => {
       await wait (8);
     }
 
-    loop (device, step + 1);
+    await loop (device, step + 1);
   };
 
   return loop;
