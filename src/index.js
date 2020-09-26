@@ -69,7 +69,7 @@ const motorNextStates = async () => {
   for (const states of sequence) {
     await gpioMotor.writeStates (states);
     // console.log ('_____');
-    await wait (3);
+    await wait (7);
   }
   // for (const states of [...sequence].reverse ()) {
   //   await gpioMotor.writeStates (states);
