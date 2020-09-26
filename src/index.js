@@ -50,13 +50,13 @@ gpioLed.writeStates ([0]);
 
 const sequence = [
   [1, 0, 0, 1],
-  // [1, 0, 0, 0],
+  [1, 0, 0, 0],
   [1, 1, 0, 0],
-  // [0, 1, 0, 0],
+  [0, 1, 0, 0],
   [0, 1, 1, 0],
-  // [0, 0, 1, 0],
+  [0, 0, 1, 0],
   [0, 0, 1, 1],
-  // [0, 0, 0, 1],
+  [0, 0, 0, 1],
 ];
 
 const gpioMotor1 = gpioInterface (17, 18, 27, 22);
@@ -71,7 +71,7 @@ const motorNextStates = async device => {
   for (const states of sequence) {
     await device.writeStates (states);
     // console.log ('_____');
-    await wait (50);
+    await wait (20);
   }
   motorNextStates (device);
 };
