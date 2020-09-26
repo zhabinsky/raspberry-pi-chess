@@ -70,6 +70,8 @@ const motorNextStates = steps => {
   const loop = async (device, step = 0) => {
     if (step === steps) return;
 
+    console.log (step);
+
     for (const states of sequence) {
       await device.writeStates (states);
       await wait (5);
@@ -81,5 +83,5 @@ const motorNextStates = steps => {
   return loop;
 };
 
-motorNextStates (8 * 2) (gpioMotor1);
+motorNextStates (360) (gpioMotor1);
 motorNextStates (8) (gpioMotor2);
