@@ -73,7 +73,7 @@ const motorNextStates = steps => {
       ? sequence
       : [...sequence].reverse ()) {
       await device.writeStates (states);
-      await wait (4);
+      await wait (2);
     }
 
     await loop (device, direction, step + 1);
