@@ -34,7 +34,7 @@ module.exports = (...usedPorts) => {
   const writeOff = write (0);
 
   // turn all ports off
-  writeOff (...new Array (nPorts).fill ().map ((_, index) => index + 1));
+  writeOff (...usedPorts);
 
   const switchPort = port => {
     const state = getState (port);
@@ -42,8 +42,9 @@ module.exports = (...usedPorts) => {
     else writeOn (port);
   };
 
-  const setStates = states => {
-    if (state.length !== usedPorts.length) throw Error ('Not enough states');
+  const writeStates = states => {
+    if (states.length !== usedPorts.length) throw Error ('Not enough states');
+
     usedPorts.forEach ((port, index) => {
       write (states[index]) (port);
     });
@@ -55,9 +56,8 @@ module.exports = (...usedPorts) => {
     writeOn,
     writeOff,
     getState,
-    setState,
     switchPort,
     switchAll,
-    setStates,
+    writeStates,
   };
 };
