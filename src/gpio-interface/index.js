@@ -34,7 +34,7 @@ module.exports = (...usedPorts) => {
   const writeOff = write (0);
 
   // turn all ports off
-  writeOff (...usedPorts);
+  // writeOff (...usedPorts);
 
   const switchPort = port => {
     const state = getState (port);
