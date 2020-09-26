@@ -14,7 +14,7 @@ module.exports = (...usedPorts) => {
 
   const write = value => (...ports) => {
     ports.forEach (port => {
-      if (getState (port) === value) return;
+      // if (getState (port) === value) return;
 
       const controller = controllers[port];
 

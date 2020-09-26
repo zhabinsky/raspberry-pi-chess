@@ -57,13 +57,14 @@ const sequence = [
   [0, 0, 0, 1],
 ];
 
-const gpioMotor = gpioInterface (17, 18, 27, 22);
+const gpioMotor = gpioInterface (23, 24, 25, 4);
 
-setInterval (() => gpioLed.switchAll (), 1000);
+// setInterval (() => gpioLed.switchAll (), 1000);
 
 const motorNextStates = async () => {
   for (const states of sequence) {
-    gpioMotor.writeStates (states);
+    await gpioMotor.writeStates (states);
+    console.log ('_____');
     await wait (1000);
   }
   motorNextStates ();
