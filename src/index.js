@@ -31,35 +31,16 @@ const dir = [
   [1, 1],
   [1, 0],
 ];
-const cicle = () =>
+const cycle = () =>
   model.getChild ('arm1').dragThroughCells ([...dir]).then (() => {
     return model
       .getChild ('arm1')
       .dragThroughCells ([...dir].reverse ())
-      .then (cicle);
+      .then (cycle);
   });
 
-cicle ();
+cycle ();
 
 const gpio = gpioInterface (4);
 
-console.log ('meow');
-
-setInterval (() => gpio.switchPort (4), 1000);
-
-// const Gpio = require ('onoff').Gpio; // Gpio class
-// const led = new Gpio (4, 'out'); // Export GPIO17 as an output
-
-// // Toggle the state of the LED connected to GPIO17 every 200ms
-// const iv = setInterval (_ => {
-//   const value = led.readSync () ^ 1;
-
-//   console.log (value);
-//   led.writeSync (value);
-// }, 1000);
-
-// // Stop blinking the LED after 5 seconds
-// setTimeout (_ => {
-//   clearInterval (iv); // Stop blinking
-//   led.unexport (); // Unexport GPIO and free resources
-// }, 999999);
+setInterval (() => gpio.switchAll (), 1000);

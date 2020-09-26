@@ -49,12 +49,15 @@ module.exports = (...usedPorts) => {
     });
   };
 
+  const switchAll = () => usedPorts.forEach (switchPort);
+
   return {
     writeOn,
     writeOff,
     getState,
     setState,
     switchPort,
+    switchAll,
     setStates,
   };
 };
