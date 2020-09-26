@@ -61,6 +61,8 @@ const sequence = [
 
 const gpioMotor = gpioInterface (23, 24, 25, 4);
 
+gpioMotor.generateRestInterface ();
+
 // setInterval (() => gpioLed.switchAll (), 1000);
 
 const motorNextStates = async () => {

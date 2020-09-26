@@ -2,7 +2,7 @@ const Gpio = require ('onoff').Gpio;
 
 const nPorts = 27;
 
-module.exports = (...usedPorts) => {
+const gpioInterface = (...usedPorts) => {
   const controllers = new Array (nPorts).fill ();
   const internalStates = new Array (nPorts).fill ();
 
@@ -59,5 +59,15 @@ module.exports = (...usedPorts) => {
     switchPort,
     switchAll,
     writeStates,
+    generateRestInterface: () => {
+      return gpioInterface (
+        ...new Array (nPorts)
+          .fill ()
+          .map (e => e + 1)
+          .filter (e => usedPorts.indexOf (e) === -1)
+      );
+    },
   };
 };
+
+module.exports = gpioInterface;
