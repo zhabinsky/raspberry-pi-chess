@@ -8,7 +8,7 @@ module.exports = (...usedPorts) => {
 
   usedPorts.forEach (portName => {
     try {
-      controllers[portName] = new Gpio (4, 'out');
+      controllers[portName] = new Gpio (portName, 'out');
     } catch (err) {}
   });
 
