@@ -73,7 +73,7 @@ const motorNextStates = steps => {
       ? sequence
       : [...sequence].reverse ()) {
       await device.writeStates (states);
-      await wait (2);
+      await wait (5);
     }
 
     await loop (device, direction, step + 1);
@@ -83,8 +83,8 @@ const motorNextStates = steps => {
 };
 
 (async () => {
-  const turnAround = motorNextStates (5);
-  for (let i = 0; i < 9000; i++) {
+  const turnAround = motorNextStates (10);
+  for (let i = 0; i < 1000; i++) {
     await turnAround (gpioMotor2, 1);
     await turnAround (gpioMotor2, -1);
   }
