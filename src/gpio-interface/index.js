@@ -6,9 +6,9 @@ module.exports = (...usedPorts) => {
   const controllers = new Array (nPorts).fill ();
   const internalStates = new Array (nPorts).fill ();
 
-  usedPorts.forEach (portName => {
+  usedPorts.forEach (port => {
     try {
-      controllers[portName] = new Gpio (portName, 'out');
+      controllers[port] = new Gpio (port, 'out');
     } catch (err) {}
   });
 
