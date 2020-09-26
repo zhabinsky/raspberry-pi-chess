@@ -66,10 +66,12 @@ gpioMotor1.generateRestInterface ();
 gpioMotor2.generateRestInterface ();
 
 const motorNextStates = steps => {
-  const loop = async (device, step = 0) => {
+  const loop = async (device, direction, step = 0) => {
     if (step === steps) return;
 
-    for (const states of sequence) {
+    for (const states of direction === 1
+      ? sequence
+      : [...sequence].reverse ()) {
       await device.writeStates (states);
       await wait (8);
     }
@@ -82,19 +84,19 @@ const motorNextStates = steps => {
 
 (async () => {
   const turnAround = motorNextStates (512 / 8);
-  await turnAround (gpioMotor2);
+  await turnAround (gpioMotor2, 1);
   await wait (2000);
-  await turnAround (gpioMotor2);
+  await turnAround (gpioMotor2, -1);
   await wait (2000);
-  await turnAround (gpioMotor2);
+  await turnAround (gpioMotor2, -1);
   await wait (2000);
-  await turnAround (gpioMotor2);
+  await turnAround (gpioMotor2, 1);
   await wait (2000);
-  await turnAround (gpioMotor2);
+  await turnAround (gpioMotor2, 1);
   await wait (2000);
-  await turnAround (gpioMotor2);
+  await turnAround (gpioMotor2, -1);
   await wait (2000);
-  await turnAround (gpioMotor2);
+  await turnAround (gpioMotor2, -1);
   await wait (2000);
-  await turnAround (gpioMotor2);
+  await turnAround (gpioMotor2, 1);
 }) ();
