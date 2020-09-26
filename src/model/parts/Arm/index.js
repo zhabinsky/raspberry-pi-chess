@@ -19,6 +19,7 @@ class Arm extends Part {
   getLocalState () {
     return {
       tip: this.getChild ('bone2').getEndPoint (),
+      summary: 'meow',
     };
   }
 
@@ -61,7 +62,7 @@ class Arm extends Part {
     if (!jointNew) {
       throw Error ('no interesection');
     }
-    // todo: create setter
+
     bone1.setVector (jointNew.x - joint.x, jointNew.y - joint.y);
     bone2.setVector (x - jointNew.x, y - jointNew.y);
 

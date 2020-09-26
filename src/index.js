@@ -1,6 +1,6 @@
 const model = require ('./model');
 const startServer = require ('./server');
-const gpioInterface = require ('./gpio-interface');
+const gpioInterface = require ('./interfaces/gpio-interface');
 const wait = require ('./utils/wait');
 
 startServer (model);
@@ -33,13 +33,12 @@ const dir = [
   [1, 0],
 ];
 
-const cycle = () => {
-  model.getChild ('arm1').dragThroughCells ([...dir]).then (() => {
-    return model
-      .getChild ('arm1')
-      .dragThroughCells ([...dir].reverse ())
-      .then (cycle);
-  });
+const cycle = async () => {
+  const arm = model.getChild ('arm1');
+  await arm.dragThroughCells ([...dir]);
+  await arm.dragThroughCells ([...dir].reverse ());
+
+  cycle ();
 };
 
 cycle ();
@@ -70,8 +69,6 @@ const motorNextStates = steps => {
   const loop = async (device, step = 0) => {
     if (step === steps) return;
 
-    console.log (step);
-
     for (const states of sequence) {
       await device.writeStates (states);
       await wait (8);
@@ -87,6 +84,12 @@ const motorNextStates = steps => {
 
 (async () => {
   await motorNextStates (512) (gpioMotor2);
-  await wait (1000);
+  await wait (2000);
+  await motorNextStates (512) (gpioMotor2);
+  await wait (2000);
+  await motorNextStates (512) (gpioMotor2);
+  await wait (2000);
+  await motorNextStates (512) (gpioMotor2);
+  await wait (2000);
   await motorNextStates (512) (gpioMotor2);
 }) ();
