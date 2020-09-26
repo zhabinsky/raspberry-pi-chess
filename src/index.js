@@ -74,7 +74,7 @@ const motorNextStates = steps => {
 
     for (const states of sequence) {
       await device.writeStates (states);
-      await wait (20);
+      await wait (3);
     }
 
     loop (device, step + 1);
@@ -83,5 +83,5 @@ const motorNextStates = steps => {
   return loop;
 };
 
-motorNextStates (64) (gpioMotor1);
+// motorNextStates (64) (gpioMotor1);
 motorNextStates (64 * 4) (gpioMotor2);
