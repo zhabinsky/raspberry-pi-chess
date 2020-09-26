@@ -57,7 +57,7 @@ const sequence = [
   [0, 0, 0, 1],
 ];
 
-const gpioMotor = gpioInterface (13, 12, 6, 5);
+const gpioMotor = gpioInterface (16, 18, 22, 7);
 
 // setInterval (() => gpioLed.switchAll (), 1000);
 
