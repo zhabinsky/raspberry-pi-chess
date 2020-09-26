@@ -18,7 +18,7 @@ const gpioInterface = (...usedPorts) => {
 
       const controller = controllers[port];
 
-      if (controller) controller.write (value, console.log);
+      if (controller) controller.writeSync (value, console.log);
 
       setState (port, value);
     }
